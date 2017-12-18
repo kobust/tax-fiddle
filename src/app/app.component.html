@@ -1,0 +1,391 @@
+<div id="main-div">
+  <b>WARNING:</b> This utility is strictly used to
+  <b>estimate</b> tax rates. It uses fixed growth predictions that will differ from actual growth numbers. Please understand
+  the values will not match your actual tax bill.
+  <h1>{{title}}</h1>
+  <table id="head-table" cellpadding="10px 0px 10px 0px">
+    <tr>
+      <td>
+        <mat-card class='light-mat-card'>
+          <mat-card-header>
+            <mat-card-title>
+              <h2>Assessed Home Value: {{targetHomeValue | currency : 'USD': 'symbol': '1.0-0'}}</h2>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              Specify the assessed value of the home you would like to evaluate. This utility will roughly calculate taxes over the course
+              of the proposed bond. If unsure of your home's assessed value, look it up
+              <a href="http://nereval.com/Search.aspx?town=Attleboro">here</a>.</p>
+            <mat-form-field>
+              <input matInput [(ngModel)]='targetHomeValue' placeholder="Assessed Home Value" type="number">
+              <span matPrefix>$&nbsp;</span>
+              <mat-hint align="begin">2018 median = $270,700</mat-hint>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </td>
+    </tr>
+    <tr>
+      <td columnspan="0">
+        <mat-card class="dark-mat-card">
+          <mat-card-header>
+            <mat-card-title>
+              <h2>Estimated Household Impact</h2>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <table cellpadding="4px" width="100%">
+              <colgroup>
+                <col style="width: 50%" />
+                <col style="width: 50%" />
+              </colgroup>
+              <tr>
+                <td>
+                  <mat-card class="light-mat-card">
+                    <mat-card-content>
+                      <h4>Average annual bond responsibility:
+                      </h4>
+                      <h3 align="center">
+                        <b>{{bondPaymentAverage | currency : 'USD' : 'symbol' : '1.0-0'}}</b>
+                      </h3>
+                      <p align="center">
+                        <i>({{bondPaymentAverage / 12 | currency : 'USD' : 'symbol' : '1.0-0'}}/month)</i>
+                      </p>
+                    </mat-card-content>
+                  </mat-card>
+                </td>
+                <td>
+                  <mat-card class="light-mat-card">
+                    <mat-card-content>
+                      <h4>Peak annual bond responsibility:</h4>
+                      <h3 align="center">
+                        <b>{{bondPaymentPeak | currency : 'USD' : 'symbol' : '1.0-0'}}</b>
+                      </h3>
+                      <p align="center">
+                        <i>({{bondPaymentPeak / 12 | currency : 'USD' : 'symbol' : '1.0-0'}}/month)</i>
+                      </p>
+                    </mat-card-content>
+                  </mat-card>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <mat-card class="light-mat-card">
+                    <mat-card-content>
+                      <h4>Sum of household bond payments over {{ bondYears }} years for a house assessed at {{targetHomeValue
+                        | currency : 'USD': 'symbol': '1.0-0'}}:
+                      </h4>
+                      <h3 align="center">
+                        <b>{{bondPaymentTotal | currency : 'USD' : 'symbol' : '1.0-0'}}</b>
+                      </h3>
+                    </mat-card-content>
+                  </mat-card>
+                </td>
+              </tr>
+            </table>
+            <canvas baseChart max-height="100px" 
+              [datasets]="_householdImpactChart.lineChartData" 
+              [labels]="_householdImpactChart.lineChartLabels" 
+              [options]="_householdImpactChart.lineChartOptions" 
+              [colors]="_householdImpactChart.lineChartColors"
+              [legend]="_householdImpactChart.lineChartLegend" 
+              [chartType]="_householdImpactChart.lineChartType"></canvas>
+          </mat-card-content>
+        </mat-card>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div id="secondary-div">
+  <mat-tab-group flex id="main-tab-group">
+    <mat-tab label="Household Data">
+        <mat-table #table [dataSource]="_dataSource">
+          <ng-container matColumnDef="year">
+            <mat-header-cell *matHeaderCellDef>Year</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.year}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="homeTarget">
+            <mat-header-cell *matHeaderCellDef>Home Value</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.homeTarget | currency : 'USD': 'symbol': '1.0-0'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="homeTargetTaxBillWithoutBond">
+            <mat-header-cell *matHeaderCellDef>Tax w/o Bond</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.homeTargetTaxBillWithoutBond | currency : 'USD': 'symbol': '1.0-0'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="homeTargetTaxBillDiff">
+            <mat-header-cell *matHeaderCellDef> Bond Payment </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.homeTargetTaxBill - element.homeTargetTaxBillWithoutBond | currency : 'USD': 'symbol': '1.0-0'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="homeTargetTaxBill">
+            <mat-header-cell *matHeaderCellDef>Total Tax Bill</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.homeTargetTaxBill | currency : 'USD': 'symbol': '1.0-0'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="homeYearOverYearIncreasePercent">
+            <mat-header-cell *matHeaderCellDef> % Change </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.homeYearOverYearIncreasePercent | percent : '1.2-2'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="bondRequirement">
+            <mat-header-cell *matHeaderCellDef>Bond Requirement</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.bondRequirement| currency : 'USD': 'symbol': '1.0-0'}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedHouseholdColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedHouseholdColumns;"></mat-row>
+        </mat-table>
+    </mat-tab>
+
+
+    <mat-tab label="Municipal Data">
+        <mat-table #table [dataSource]="_dataSource">
+          <ng-container matColumnDef="year">
+            <mat-header-cell *matHeaderCellDef>Year</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.year}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="cipTotalAssessed">
+            <mat-header-cell *matHeaderCellDef>CIP Total Assessed</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.cipTotalAssessed | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="cipNewAssessedGrowth">
+            <mat-header-cell *matHeaderCellDef>CIP New Growth</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.cipNewAssessedGrowth | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="cipPercent">
+            <mat-header-cell *matHeaderCellDef>CIP %</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.cipPercent | percent : '1.2-2'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="cipShiftedPercent">
+            <mat-header-cell *matHeaderCellDef>CIP Shifted %</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.cipShiftedPercent | percent : '1.2-2'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="cipTaxRateWithBond">
+            <mat-header-cell *matHeaderCellDef>CIP Rate</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.cipTaxRateWithBond | number : '1.2-2'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="roTotalAssessed">
+            <mat-header-cell *matHeaderCellDef>RO Total Assessed</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.roTotalAssessed | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="roNewAssessedGrowth">
+            <mat-header-cell *matHeaderCellDef>RO New Growth</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.roNewAssessedGrowth | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="roPercent">
+            <mat-header-cell *matHeaderCellDef>RO %</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.roPercent | percent : '1.2-2'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="roShiftedPercent">
+            <mat-header-cell *matHeaderCellDef>RO Shifted %</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.roShiftedPercent | percent : '1.2-2'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="roTaxRateWithBond">
+            <mat-header-cell *matHeaderCellDef>RO Rate</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.roTaxRateWithBond | number : '1.2-2'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="totalAssessed">
+            <mat-header-cell *matHeaderCellDef>Total Assessed</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.totalAssessed | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="levyLimit">
+            <mat-header-cell *matHeaderCellDef>Levy Limit</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.levyLimit | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="levyLimitGrowthPercent">
+            <mat-header-cell *matHeaderCellDef>Levy Growth</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.levyLimitGrowthPercent | percent : '1.2-2'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="shift">
+            <mat-header-cell *matHeaderCellDef>Shift</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.shift}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="mrf">
+            <mat-header-cell *matHeaderCellDef>MRF</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.mrf | number : '1.2-5'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="rawBondRequirement">
+            <mat-header-cell *matHeaderCellDef>Raw Bond Requirement</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.rawBondRequirement| currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+          </ng-container>
+
+
+          <ng-container matColumnDef="bondRequirement">
+            <mat-header-cell *matHeaderCellDef>Bond Requirement</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.bondRequirement| currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="debtExclusionGrowthDifference">
+            <mat-header-cell *matHeaderCellDef>Growth From Debt</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.debtExclusionGrowthDifference| currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+          </ng-container>
+
+
+          <mat-header-row *matHeaderRowDef="displayedMuniColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedMuniColumns;"></mat-row>
+        </mat-table>
+    </mat-tab>
+
+
+
+    <mat-tab label="Bond Config">
+
+      <div flex layout="column">
+        <mat-card class='light-mat-card'>
+          <mat-card-header>
+            <mat-card-title>
+              <h2>Bond Configuration</h2>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Various scenarios can be explored via the following pre-saved configurations or manually explore the specific
+              options below.
+            </p>
+            <mat-select placeholder="Select Scenario" [(ngModel)]="currentConfig" >
+              <mat-option *ngFor="let config of _configs" [value]="config">
+                {{config.name}}
+              </mat-option>
+            </mat-select>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class='light-mat-card'>
+          <mat-card-content>
+            <h4>Bonds Summary: {{ currentConfig.name }}</h4>
+            <ul>
+              <li>
+                <h4>Total Principal: {{ totalBondPrincipal | currency : 'USD': 'symbol': '1.0-0'}}</h4>
+              </li>
+              <li>
+                <h4>Total Interest: {{ totalBondPayments - totalBondPrincipal | currency : 'USD': 'symbol': '1.0-0' }}</h4>
+              </li>
+              <li>
+                <h4>Total: {{ totalBondPayments | currency : 'USD': 'symbol': '1.0-0' }}</h4>
+              </li>
+              <li>
+                <h4>Total Years: {{ bondYearsBase }}</h4>
+              </li>
+            </ul>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <mat-card class='light-mat-card' *ngFor='let bond of _config.bonds'>
+        <mat-card-header>
+          <mat-card-title>
+            <mat-form-field>
+              <input matInput [(ngModel)]='bond.name' placeholder="Bond Name" type="string">
+            </mat-form-field>
+            <mat-slide-toggle [(ngModel)]='bond.enabled'>{{ bond.enabled ? 'Enabled' : 'Disabled'}}</mat-slide-toggle>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field>
+            <input matInput [(ngModel)]='bond.startYear' placeholder="Start Year" type="number">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput [(ngModel)]='bond.principal' placeholder="Principal" type="number">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput [(ngModel)]='bond.interestRate' placeholder="Interest Rate" type="number">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput [(ngModel)]='bond.term' placeholder="Term Years" type="number">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="Bond Type" [(value)]="bond.bondType">
+              <mat-option *ngFor="let bondType of bondTypes" [value]="bondType.value">
+                {{ bondType.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+
+
+
+
+    <mat-tab label="Growth Config">
+      <mat-card class='light-mat-card'>
+        <h4>Commercial, Industrial and Pers Property (CIP) Growth Rates:</h4>
+        <mat-card-content>
+
+          <p>Default values set based on average year over year growth rates for past ten years (raw data is available via Mass.gov's
+            <a href="https://www.mass.gov/lists/reports-relating-to-property-tax-data-and-statistics">Municipal Databank</a>).</p>
+          <p>
+            <mat-form-field>
+              <input matInput [(ngModel)]='_config.cipGrowthRate' placeholder="CIP Growth Rate" type="number">
+              <mat-hint align="begin">10 year avg = 0.04376 (4.38%)</mat-hint>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput [(ngModel)]='_config.cipNewGrowthRate' placeholder="CIP NEW Growth Rate" type="number">
+              <mat-hint align="begin">10 year avg = 0.03604 (3.6%)</mat-hint>
+            </mat-form-field>
+          </p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class='light-mat-card'>
+        <h4>Residential and Open Spaces (RO) Growth Rates:</h4>
+        <mat-card-content>
+
+          <p>Default values based on average year over year growth rates.</p>
+          <p>
+            <mat-form-field>
+              <input matInput [(ngModel)]='_config.roGrowthRate' placeholder="RO Growth Rate" type="number">
+              <mat-hint align="begin">10 year avr = 0.023 (2.3%)</mat-hint>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput [(ngModel)]='_config.roNewGrowthRate' placeholder="RO NEW Growth Rate" type="number">
+              <mat-hint align="begin">10 year avg = 0.01340 (1.34%)</mat-hint>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput [(ngModel)]='_config.homeGrowthRate' placeholder="Home Value Growth Rate" type="number">
+              <mat-hint align="begin">20 year avg = 0.015 (1.5%)</mat-hint>
+            </mat-form-field>
+          </p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class='light-mat-card'>
+        <h4>Prop 2.5 Settings:</h4>
+        <mat-card-content>
+          <p>FY2018 shift rate = 1.28. FY2017 rate was 1.31.</p>
+          <p>
+            <mat-form-field>
+              <input matInput [(ngModel)]='_config.shift' placeholder="Tax Shift" type="number">
+              <mat-hint align="begin">default is 1.28</mat-hint>
+            </mat-form-field>
+            <mat-slide-toggle [(ngModel)]='_config.enableBondPaymentRecycling'>Stan Magic {{ _config.enableBondPaymentRecycling ? 'Enabled' : 'Disabled'}}</mat-slide-toggle>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<p>
+  <b>DISCLAIMER / WARNING:</b> This utility is strictly used to
+  <b>estimate</b> tax rates. It uses fixed growth predictions that will differ from actual growth numbers. Please understand
+  the values will not match your actual tax bill.</p>
+<p>This utility was created and is maintained by Todd Kobus. Please feel free to contact me at 'todd at toddkobus.com' with
+  any questions, comments or concerns.</p>

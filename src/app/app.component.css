@@ -8,13 +8,13 @@
     margin-bottom: 5px;    
   }  
 
-#main-div {
-    width:800px; 
+.main-div {
+    width:600px; 
     margin:0 auto;
 }
 
 #secondary-div {
-    min-width:800px; 
+    min-width:600px; 
     margin:0 auto;
 }
 

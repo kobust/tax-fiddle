@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { TaxBond } from './tax-bond.service';
+import { TaxBond } from './tax-bond';
 import { EventEmitter } from 'events';
 
 interface Serializable<T> {
   deserialize(input: Object): T;
 }
 
-export class TaxConfigService implements Serializable<TaxConfigService> {
+export class TaxConfig implements Serializable<TaxConfig> {
 
   constructor() {
     this._homeAssessedValue = 270700;

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 
-import { TaxCalcService } from '../tax-calc.service';
-import { TaxConfigService } from '../tax-config.service';
+import { TaxCalcComponent } from '../tax-calc';
+import { TaxConfig } from '../tax-config';
 import { HttpClient } from '@angular/common/http';
 import { IfObservable } from 'rxjs/observable/IfObservable';
 import { Observable } from 'rxjs/Observable';
@@ -10,23 +10,24 @@ import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { IYearData } from '../interfaces/IYearData';
 import { HouseholdImpactChartComponent } from './householdImpactChart';
 import { isDefined } from '@angular/compiler/src/util';
+import { YearData } from '../tax-yearData';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [TaxCalcService, HttpClient]
+  providers: [TaxCalcComponent, HttpClient]
 })
 export class AppComponent implements OnInit {
 
   _yearlyData: IYearData[];
   _dataSource: MatTableDataSource<IYearData>;
-  _configs = new Array<TaxConfigService>();
-  _customConfig = new TaxConfigService();
+  _configs = new Array<TaxConfig>();
+  _customConfig = new TaxConfig();
   _title = 'Attleboro Property Tax Estimation';
   _householdImpactChart: HouseholdImpactChartComponent;
 
-  constructor(private _calc: TaxCalcService, private _http: HttpClient) {
+  constructor(private _calc: TaxCalcComponent, private _http: HttpClient) {
     this._householdImpactChart = new HouseholdImpactChartComponent(this._calc);
     this.targetHomeValue = this._config.homeAssessedValue;
     this._dataSource = new MatTableDataSource(this._calc.generateTable(true, this.currentConfig));
@@ -35,11 +36,11 @@ export class AppComponent implements OnInit {
   // ------------------------
   //   Properties
   // ------------------------
-  _config = new TaxConfigService();
-  get currentConfig(): TaxConfigService {
+  _config = new TaxConfig();
+  get currentConfig(): TaxConfig {
     return this._config;
   }
-  set currentConfig(value: TaxConfigService) {
+  set currentConfig(value: TaxConfig) {
     value.homeAssessedValue = this._config.homeAssessedValue;
     this._config.deserialize(value);
     this._config.parent = this;
@@ -86,14 +87,16 @@ export class AppComponent implements OnInit {
     return years > 0 ? sum / years : 0;
   }
 
-  get bondPaymentPeak(): number {
+  get bondPaymentPeak(): IYearData {
     let max = 0;
+    let tempYear : IYearData;
     for (const year of this._yearlyData) {
       if (year.homeBondPayment > max) {
         max = year.homeBondPayment;
+        tempYear = year;
       }
     }
-    return max;
+    return tempYear;
   }
 
   get bondYears(): number {
@@ -181,9 +184,9 @@ export class AppComponent implements OnInit {
 
   loadConfigs() {
     this._http.get('./assets/tax-configs.json').subscribe(data => {
-      const newConfigs = Array<TaxConfigService>();
+      const newConfigs = Array<TaxConfig>();
       for (const config of data['configs']) {
-        newConfigs.push(new TaxConfigService().deserialize(config.config));
+        newConfigs.push(new TaxConfig().deserialize(config.config));
       }
       this._configs = newConfigs;
       this.currentConfig = newConfigs[0];

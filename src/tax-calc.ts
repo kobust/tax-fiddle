@@ -1,19 +1,22 @@
 import { Injectable, Component } from '@angular/core';
-import { TaxDataService } from './tax-data.service';
-import { TaxConfigService } from './tax-config.service';
-import { TaxBond } from './tax-bond.service';
+import { TaxConfig } from './tax-config';
+import { TaxBond } from './tax-bond';
 import { IYearData } from './interfaces/IYearData';
 import { IYearInputData } from './interfaces/IYearInputData';
 import { YearData } from './tax-yearData';
+import { HttpClient } from '@angular/common/http';
+import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Injectable()
-export class TaxCalcService {
+@Component({
+  providers: [HttpClient]
+})
+export class TaxCalcComponent {
 
-  _yearlyInput: Map<number, IYearInputData>;
+  _yearlyInput = new Map<number, IYearInputData>();
 
-  constructor() {
-    const dataService = new TaxDataService();
-    this._yearlyInput = dataService.initYearlyInput();
+  constructor(private _http: HttpClient) {
+    this._loadYears();
   }
 
   _getBondStopYear(bonds: Array<TaxBond>): number {
@@ -34,7 +37,7 @@ export class TaxCalcService {
     return sum;
   }
 
-  generateTable(includeBond: boolean, config: TaxConfigService): IYearData[] {
+  generateTable(includeBond: boolean, config: TaxConfig): IYearData[] {
     const result = new Array<IYearData>();
     const startYear = 2018;
     let stopYear = startYear;
@@ -44,7 +47,9 @@ export class TaxCalcService {
 
     let currentYearInput = this._yearlyInput.get(startYear);
     let lastYearInput = this._yearlyInput.get(startYear - 1);
-
+    if (currentYearInput === undefined) {
+      return result;
+    }
     currentYearInput.homeTarget = config.homeAssessedValue;
     currentYearInput.bondRequirement = 0;
 
@@ -59,5 +64,13 @@ export class TaxCalcService {
       currentYearInput = currentYearData.generateNextYearInput(config);
     }
     return result;
+  }
+
+  _loadYears() {
+    this._http.get('./assets/tax-data.json').subscribe(data => {
+      for (const y of data['years']) {
+        this._yearlyInput.set(y.year, y);
+      }
+    });
   }
 }

@@ -1,19 +1,19 @@
 import { IYearData } from './interfaces/IYearData';
 import { IYearInputData } from './interfaces/IYearInputData';
-import { TaxConfigService } from './tax-config.service';
+import { TaxConfig } from './tax-config';
 
 export class YearData implements IYearData {
     private _currentYear: IYearInputData;
     private _previousYear: IYearInputData;
-    private _config: TaxConfigService;
+    private _config: TaxConfig;
 
-    constructor(currentYear: IYearInputData, previousYear: IYearInputData, config: TaxConfigService) {
+    constructor(currentYear: IYearInputData, previousYear: IYearInputData, config: TaxConfig) {
       this._currentYear = currentYear;
       this._previousYear = previousYear;
       this._config = config;
     }
 
-    generateNextYearInput(config: TaxConfigService): IYearInputData {
+    generateNextYearInput(config: TaxConfig): IYearInputData {
       // let newInput = this._currentYear;
       const newInput = Object.assign({}, this._currentYear);
       newInput.cipNewAssessedGrowth = newInput.cipTotalAssessed * (config.cipNewGrowthRate);

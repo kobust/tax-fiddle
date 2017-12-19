@@ -1,4 +1,4 @@
-<div id="main-div">
+<div class="main-div">
   <b>WARNING:</b> This utility is strictly used to
   <b>estimate</b> tax rates. It uses fixed growth predictions that will differ from actual growth numbers. Please understand
   the values will not match your actual tax bill.
@@ -58,12 +58,12 @@
                 <td>
                   <mat-card class="light-mat-card">
                     <mat-card-content>
-                      <h4>Peak annual bond responsibility:</h4>
+                      <h4>Peak annual bond responsibility ({{ bondPaymentPeak?.year }}):</h4>
                       <h3 align="center">
-                        <b>{{bondPaymentPeak | currency : 'USD' : 'symbol' : '1.0-0'}}</b>
+                        <b>{{bondPaymentPeak?.homeBondPayment | currency : 'USD' : 'symbol' : '1.0-0'}}</b>
                       </h3>
                       <p align="center">
-                        <i>({{bondPaymentPeak / 12 | currency : 'USD' : 'symbol' : '1.0-0'}}/month)</i>
+                        <i>({{bondPaymentPeak?.homeBondPayment / 12 | currency : 'USD' : 'symbol' : '1.0-0'}}/month)</i>
                       </p>
                     </mat-card-content>
                   </mat-card>
@@ -84,12 +84,8 @@
                 </td>
               </tr>
             </table>
-            <canvas baseChart max-height="100px" 
-              [datasets]="_householdImpactChart.lineChartData" 
-              [labels]="_householdImpactChart.lineChartLabels" 
-              [options]="_householdImpactChart.lineChartOptions" 
-              [colors]="_householdImpactChart.lineChartColors"
-              [legend]="_householdImpactChart.lineChartLegend" 
+            <canvas baseChart max-height="150px" [datasets]="_householdImpactChart.lineChartData" [labels]="_householdImpactChart.lineChartLabels"
+              [options]="_householdImpactChart.lineChartOptions" [colors]="_householdImpactChart.lineChartColors" [legend]="_householdImpactChart.lineChartLegend"
               [chartType]="_householdImpactChart.lineChartType"></canvas>
           </mat-card-content>
         </mat-card>
@@ -101,150 +97,150 @@
 <div id="secondary-div">
   <mat-tab-group flex id="main-tab-group">
     <mat-tab label="Household Data">
-        <mat-table #table [dataSource]="_dataSource">
-          <ng-container matColumnDef="year">
-            <mat-header-cell *matHeaderCellDef>Year</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.year}} </mat-cell>
-          </ng-container>
+      <mat-table #table [dataSource]="_dataSource">
+        <ng-container matColumnDef="year">
+          <mat-header-cell *matHeaderCellDef>Year</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.year}} </mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="homeTarget">
-            <mat-header-cell *matHeaderCellDef>Home Value</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.homeTarget | currency : 'USD': 'symbol': '1.0-0'}} </mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="homeTarget">
+          <mat-header-cell *matHeaderCellDef>Home Value</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.homeTarget | currency : 'USD': 'symbol': '1.0-0'}} </mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="homeTargetTaxBillWithoutBond">
-            <mat-header-cell *matHeaderCellDef>Tax w/o Bond</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.homeTargetTaxBillWithoutBond | currency : 'USD': 'symbol': '1.0-0'}} </mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="homeTargetTaxBillWithoutBond">
+          <mat-header-cell *matHeaderCellDef>Tax w/o Bond</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.homeTargetTaxBillWithoutBond | currency : 'USD': 'symbol': '1.0-0'}} </mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="homeTargetTaxBillDiff">
-            <mat-header-cell *matHeaderCellDef> Bond Payment </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.homeTargetTaxBill - element.homeTargetTaxBillWithoutBond | currency : 'USD': 'symbol': '1.0-0'}} </mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="homeTargetTaxBillDiff">
+          <mat-header-cell *matHeaderCellDef> Bond Payment </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.homeTargetTaxBill - element.homeTargetTaxBillWithoutBond | currency : 'USD': 'symbol': '1.0-0'}} </mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="homeTargetTaxBill">
-            <mat-header-cell *matHeaderCellDef>Total Tax Bill</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.homeTargetTaxBill | currency : 'USD': 'symbol': '1.0-0'}} </mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="homeTargetTaxBill">
+          <mat-header-cell *matHeaderCellDef>Total Tax Bill</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.homeTargetTaxBill | currency : 'USD': 'symbol': '1.0-0'}} </mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="homeYearOverYearIncreasePercent">
-            <mat-header-cell *matHeaderCellDef> % Change </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.homeYearOverYearIncreasePercent | percent : '1.2-2'}} </mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="homeYearOverYearIncreasePercent">
+          <mat-header-cell *matHeaderCellDef> % Change </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.homeYearOverYearIncreasePercent | percent : '1.2-2'}} </mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="bondRequirement">
-            <mat-header-cell *matHeaderCellDef>Bond Requirement</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.bondRequirement| currency : 'USD': 'symbol': '1.0-0'}} </mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="bondRequirement">
+          <mat-header-cell *matHeaderCellDef>Bond Requirement</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.bondRequirement| currency : 'USD': 'symbol': '1.0-0'}} </mat-cell>
+        </ng-container>
 
-          <mat-header-row *matHeaderRowDef="displayedHouseholdColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedHouseholdColumns;"></mat-row>
-        </mat-table>
+        <mat-header-row *matHeaderRowDef="displayedHouseholdColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedHouseholdColumns;"></mat-row>
+      </mat-table>
     </mat-tab>
 
 
     <mat-tab label="Municipal Data">
-        <mat-table #table [dataSource]="_dataSource">
-          <ng-container matColumnDef="year">
-            <mat-header-cell *matHeaderCellDef>Year</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.year}}</mat-cell>
-          </ng-container>
+      <mat-table #table [dataSource]="_dataSource">
+        <ng-container matColumnDef="year">
+          <mat-header-cell *matHeaderCellDef>Year</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.year}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="cipTotalAssessed">
-            <mat-header-cell *matHeaderCellDef>CIP Total Assessed</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.cipTotalAssessed | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="cipTotalAssessed">
+          <mat-header-cell *matHeaderCellDef>CIP Total Assessed</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.cipTotalAssessed | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="cipNewAssessedGrowth">
-            <mat-header-cell *matHeaderCellDef>CIP New Growth</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.cipNewAssessedGrowth | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="cipNewAssessedGrowth">
+          <mat-header-cell *matHeaderCellDef>CIP New Growth</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.cipNewAssessedGrowth | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="cipPercent">
-            <mat-header-cell *matHeaderCellDef>CIP %</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.cipPercent | percent : '1.2-2'}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="cipPercent">
+          <mat-header-cell *matHeaderCellDef>CIP %</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.cipPercent | percent : '1.2-2'}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="cipShiftedPercent">
-            <mat-header-cell *matHeaderCellDef>CIP Shifted %</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.cipShiftedPercent | percent : '1.2-2'}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="cipShiftedPercent">
+          <mat-header-cell *matHeaderCellDef>CIP Shifted %</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.cipShiftedPercent | percent : '1.2-2'}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="cipTaxRateWithBond">
-            <mat-header-cell *matHeaderCellDef>CIP Rate</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.cipTaxRateWithBond | number : '1.2-2'}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="cipTaxRateWithBond">
+          <mat-header-cell *matHeaderCellDef>CIP Rate</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.cipTaxRateWithBond | number : '1.2-2'}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="roTotalAssessed">
-            <mat-header-cell *matHeaderCellDef>RO Total Assessed</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.roTotalAssessed | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="roTotalAssessed">
+          <mat-header-cell *matHeaderCellDef>RO Total Assessed</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.roTotalAssessed | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="roNewAssessedGrowth">
-            <mat-header-cell *matHeaderCellDef>RO New Growth</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.roNewAssessedGrowth | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="roNewAssessedGrowth">
+          <mat-header-cell *matHeaderCellDef>RO New Growth</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.roNewAssessedGrowth | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="roPercent">
-            <mat-header-cell *matHeaderCellDef>RO %</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.roPercent | percent : '1.2-2'}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="roPercent">
+          <mat-header-cell *matHeaderCellDef>RO %</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.roPercent | percent : '1.2-2'}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="roShiftedPercent">
-            <mat-header-cell *matHeaderCellDef>RO Shifted %</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.roShiftedPercent | percent : '1.2-2'}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="roShiftedPercent">
+          <mat-header-cell *matHeaderCellDef>RO Shifted %</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.roShiftedPercent | percent : '1.2-2'}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="roTaxRateWithBond">
-            <mat-header-cell *matHeaderCellDef>RO Rate</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.roTaxRateWithBond | number : '1.2-2'}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="roTaxRateWithBond">
+          <mat-header-cell *matHeaderCellDef>RO Rate</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.roTaxRateWithBond | number : '1.2-2'}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="totalAssessed">
-            <mat-header-cell *matHeaderCellDef>Total Assessed</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.totalAssessed | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="totalAssessed">
+          <mat-header-cell *matHeaderCellDef>Total Assessed</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.totalAssessed | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="levyLimit">
-            <mat-header-cell *matHeaderCellDef>Levy Limit</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.levyLimit | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="levyLimit">
+          <mat-header-cell *matHeaderCellDef>Levy Limit</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.levyLimit | currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="levyLimitGrowthPercent">
-            <mat-header-cell *matHeaderCellDef>Levy Growth</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.levyLimitGrowthPercent | percent : '1.2-2'}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="levyLimitGrowthPercent">
+          <mat-header-cell *matHeaderCellDef>Levy Growth</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.levyLimitGrowthPercent | percent : '1.2-2'}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="shift">
-            <mat-header-cell *matHeaderCellDef>Shift</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.shift}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="shift">
+          <mat-header-cell *matHeaderCellDef>Shift</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.shift}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="mrf">
-            <mat-header-cell *matHeaderCellDef>MRF</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.mrf | number : '1.2-5'}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="mrf">
+          <mat-header-cell *matHeaderCellDef>MRF</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.mrf | number : '1.2-5'}}</mat-cell>
+        </ng-container>
 
-          <ng-container matColumnDef="rawBondRequirement">
-            <mat-header-cell *matHeaderCellDef>Raw Bond Requirement</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.rawBondRequirement| currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
-          </ng-container>
-
-
-          <ng-container matColumnDef="bondRequirement">
-            <mat-header-cell *matHeaderCellDef>Bond Requirement</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.bondRequirement| currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
-          </ng-container>
-
-          <ng-container matColumnDef="debtExclusionGrowthDifference">
-            <mat-header-cell *matHeaderCellDef>Growth From Debt</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.debtExclusionGrowthDifference| currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
-          </ng-container>
+        <ng-container matColumnDef="rawBondRequirement">
+          <mat-header-cell *matHeaderCellDef>Raw Bond Requirement</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.rawBondRequirement| currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+        </ng-container>
 
 
-          <mat-header-row *matHeaderRowDef="displayedMuniColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedMuniColumns;"></mat-row>
-        </mat-table>
+        <ng-container matColumnDef="bondRequirement">
+          <mat-header-cell *matHeaderCellDef>Bond Requirement</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.bondRequirement| currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="debtExclusionGrowthDifference">
+          <mat-header-cell *matHeaderCellDef>Growth From Debt</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.debtExclusionGrowthDifference| currency : 'USD': 'symbol': '1.0-0'}}</mat-cell>
+        </ng-container>
+
+
+        <mat-header-row *matHeaderRowDef="displayedMuniColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedMuniColumns;"></mat-row>
+      </mat-table>
     </mat-tab>
 
 
@@ -262,7 +258,7 @@
             <p>Various scenarios can be explored via the following pre-saved configurations or manually explore the specific
               options below.
             </p>
-            <mat-select placeholder="Select Scenario" [(ngModel)]="currentConfig" >
+            <mat-select placeholder="Select Scenario" [(ngModel)]="currentConfig">
               <mat-option *ngFor="let config of _configs" [value]="config">
                 {{config.name}}
               </mat-option>
@@ -382,10 +378,11 @@
     </mat-tab>
   </mat-tab-group>
 </div>
-
+<div class="main-div">
 <p>
   <b>DISCLAIMER / WARNING:</b> This utility is strictly used to
   <b>estimate</b> tax rates. It uses fixed growth predictions that will differ from actual growth numbers. Please understand
   the values will not match your actual tax bill.</p>
 <p>This utility was created and is maintained by Todd Kobus. Please feel free to contact me at 'todd at toddkobus.com' with
   any questions, comments or concerns.</p>
+</div>

@@ -1,11 +1,11 @@
 import { YearData } from '../tax-yearData';
-import { TaxConfigService } from '../tax-config.service';
+import { TaxConfig } from '../tax-config';
 import { Component } from '@angular/core';
-import { TaxCalcService } from '../tax-calc.service';
+import { TaxCalcComponent } from '../tax-calc';
 import { IYearData } from '../interfaces/IYearData';
 
 @Component({
-    providers: [TaxCalcService]
+    providers: [TaxCalcComponent]
 })
 export class HouseholdImpactChartComponent {
     public lineChartLegend = true;
@@ -13,7 +13,7 @@ export class HouseholdImpactChartComponent {
     public lineChartData: Array<any> = [];
     public lineChartLabels: Array<any> = [];
 
-    constructor(private _calc: TaxCalcService) {
+    constructor(private _calc: TaxCalcComponent) {
     }
 
     public lineChartOptions: any = {
@@ -53,7 +53,7 @@ export class HouseholdImpactChartComponent {
         },
     ];
 
-    getAnnualPaymentsNoBond(config: TaxConfigService): Array<number> {
+    getAnnualPaymentsNoBond(config: TaxConfig): Array<number> {
         const _bondPayments = new Array<number>();
         const tempYears = this._calc.generateTable(false, config);
         for (const y of tempYears) {
@@ -63,7 +63,7 @@ export class HouseholdImpactChartComponent {
     }
 
     // lineChart
-    update(yearData: IYearData[], config: TaxConfigService): void {
+    update(yearData: IYearData[], config: TaxConfig): void {
         this.lineChartLabels.length = 0;
         const _bondPayments = new Array<number>();
         const _totalPayments = new Array<number>();

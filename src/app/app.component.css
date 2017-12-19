@@ -10,16 +10,16 @@
 
 .main-div {
     width:600px; 
-    margin:0 auto;
+    margin:5 auto;
 }
 
 #secondary-div {
     min-width:600px; 
-    margin:0 auto;
+    margin:5 auto;
 }
 
 #head-table { 
-    max-width: 1000px; 
+    max-width: 1200px; 
     min-width: 400px;
     align-self: center;
   }

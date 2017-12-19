@@ -17,8 +17,8 @@ export class HouseholdImpactChartComponent {
     }
 
     public lineChartOptions: any = {
-        responsive: true,
-        maintainAspectRatio: true,
+        responsive: false,
+        maintainAspectRatio: false,
         legend: { position: 'bottom' },
         title: {
             display: true,

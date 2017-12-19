@@ -1,8 +1,9 @@
+<mat-toolbar id="title-toolbar">{{_title}}</mat-toolbar>
 <div class="main-div">
+  <p style="margin: 10px">
   <b>WARNING:</b> This utility is strictly used to
   <b>estimate</b> tax rates. It uses fixed growth predictions that will differ from actual growth numbers. Please understand
-  the values will not match your actual tax bill.
-  <h1>{{title}}</h1>
+  the values will not match your actual tax bill.</p>
   <table id="head-table" cellpadding="10px 0px 10px 0px">
     <tr>
       <td>
@@ -84,7 +85,7 @@
                 </td>
               </tr>
             </table>
-            <canvas max-height="150px" [datasets]="_householdImpactChart.lineChartData" [labels]="_householdImpactChart.lineChartLabels"
+            <canvas baseChart width="580px" height="400px" [datasets]="_householdImpactChart.lineChartData" [labels]="_householdImpactChart.lineChartLabels"
               [options]="_householdImpactChart.lineChartOptions" [colors]="_householdImpactChart.lineChartColors" [legend]="_householdImpactChart.lineChartLegend"
               [chartType]="_householdImpactChart.lineChartType"></canvas>
           </mat-card-content>

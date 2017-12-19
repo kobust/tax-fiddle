@@ -5,12 +5,20 @@
   }
 .light-mat-card {
     background-color: #FFFFFF;
-    margin-bottom: 5px;    
+    margin-bottom: 5px;  
+    flex-grow:   
   }  
 
 .main-div {
     width:600px; 
     margin:5 auto;
+    align-self: center;
+}
+
+#title-toolbar {
+    background-color: #304ffe;
+    color: #FFFFFF;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 #secondary-div {

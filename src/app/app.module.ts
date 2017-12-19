@@ -17,6 +17,7 @@ import {
   MatCheckboxModule,
   MatSlideToggleModule,
   MatCardModule,
+  MatToolbarModule,
 } from '@angular/material';
 import { AppComponent } from './app.component';
 
@@ -41,6 +42,7 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     ChartsModule,
     MatCardModule,
+    MatToolbarModule,
   ],
 
   providers: [],

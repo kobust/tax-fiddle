@@ -1,9 +1,9 @@
 <mat-toolbar id="title-toolbar">{{_title}}</mat-toolbar>
 <div class="main-div" align="center">
   <p style="margin: 10px">
-  <b>WARNING:</b> This utility is strictly used to
-  <b>estimate</b> tax rates. It uses fixed growth predictions that will differ from actual growth numbers. Please understand
-  the values will not match your actual tax bill.</p>
+    <b>WARNING:</b> This utility is strictly used to
+    <b>estimate</b> tax rates. It uses fixed growth predictions that will differ from actual growth numbers. Please understand
+    the values will not match your actual tax bill.</p>
   <table id="head-table" cellpadding="10px 0px 10px 0px">
     <tr>
       <td>
@@ -75,7 +75,8 @@
                   <mat-card class="light-mat-card">
                     <mat-card-content>
                       <h4>Sum of household bond payments over {{ bondYearsBase }} years for a house assessed at {{targetHomeValue
-                        | currency : 'USD': 'symbol': '1.0-0'}}  {{bondYears !== bondYearsBase? "(" + (bondYearsBase - bondYears) + " years of no increased payments)" : ""}}
+                        | currency : 'USD': 'symbol': '1.0-0'}} {{bondYears !== bondYearsBase? "(" + (bondYearsBase - bondYears)
+                        + " years of no increased payments)" : ""}}
                       </h4>
                       <h3 align="center">
                         <b>{{bondPaymentTotal | currency : 'USD' : 'symbol' : '1.0-0'}}</b>
@@ -372,6 +373,10 @@
               <input matInput [(ngModel)]='_config.shift' placeholder="Tax Shift" type="number">
               <mat-hint align="begin">default is 1.28</mat-hint>
             </mat-form-field>
+            <mat-form-field>
+              <input matInput [(ngModel)]='_config.debtServiceCommitment' placeholder="Debt Services Commitment" type="number">
+              <mat-hint align="begin">default is 0</mat-hint>
+            </mat-form-field>
             <mat-slide-toggle [(ngModel)]='_config.enableBondPaymentRecycling'>Stan Magic {{ _config.enableBondPaymentRecycling ? 'Enabled' : 'Disabled'}}</mat-slide-toggle>
           </p>
         </mat-card-content>
@@ -380,10 +385,10 @@
   </mat-tab-group>
 </div>
 <div class="main-div">
-<p>
-  <b>DISCLAIMER / WARNING:</b> This utility is strictly used to
-  <b>estimate</b> tax rates. It uses fixed growth predictions that will differ from actual growth numbers. Please understand
-  the values will not match your actual tax bill.</p>
-<p>This utility was created and is maintained by Todd Kobus. Please feel free to contact me at 'todd at toddkobus.com' with
-  any questions, comments or concerns.</p>
+  <p>
+    <b>DISCLAIMER / WARNING:</b> This utility is strictly used to
+    <b>estimate</b> tax rates. It uses fixed growth predictions that will differ from actual growth numbers. Please understand
+    the values will not match your actual tax bill.</p>
+  <p>This utility was created and is maintained by Todd Kobus. Please feel free to contact me at 'todd at toddkobus.com' with
+    any questions, comments or concerns.</p>
 </div>

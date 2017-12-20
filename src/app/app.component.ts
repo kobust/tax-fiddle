@@ -1,36 +1,37 @@
-import { Component } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { Component } from "@angular/core";
+import { MatTableDataSource } from "@angular/material";
 
-import { TaxCalcComponent } from '../tax-calc';
-import { TaxConfig } from '../tax-config';
-import { HttpClient } from '@angular/common/http';
-import { IfObservable } from 'rxjs/observable/IfObservable';
-import { Observable } from 'rxjs/Observable';
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { IYearData } from '../interfaces/IYearData';
-import { HouseholdImpactChartComponent } from './householdImpactChart';
-import { isDefined } from '@angular/compiler/src/util';
-import { YearData } from '../tax-yearData';
+import { TaxCalcComponent } from "../tax-calc";
+import { TaxConfig } from "../tax-config";
+import { HttpClient } from "@angular/common/http";
+import { IfObservable } from "rxjs/observable/IfObservable";
+import { Observable } from "rxjs/Observable";
+import { OnInit } from "@angular/core/src/metadata/lifecycle_hooks";
+import { IYearData } from "../interfaces/IYearData";
+import { HouseholdImpactChartComponent } from "./householdImpactChart";
+import { isDefined } from "@angular/compiler/src/util";
+import { YearData } from "../tax-yearData";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
   providers: [TaxCalcComponent, HttpClient]
 })
 export class AppComponent implements OnInit {
-
   _yearlyData: IYearData[];
   _dataSource: MatTableDataSource<IYearData>;
   _configs = new Array<TaxConfig>();
   _customConfig = new TaxConfig();
-  _title = 'Attleboro Property Tax Estimation';
+  _title = "Attleboro Property Tax Estimation";
   _householdImpactChart: HouseholdImpactChartComponent;
 
   constructor(private _calc: TaxCalcComponent, private _http: HttpClient) {
     this._householdImpactChart = new HouseholdImpactChartComponent(this._calc);
     this.targetHomeValue = this._config.homeAssessedValue;
-    this._dataSource = new MatTableDataSource(this._calc.generateTable(true, this.currentConfig));
+    this._dataSource = new MatTableDataSource(
+      this._calc.generateTable(true, this.currentConfig)
+    );
   }
 
   // ------------------------
@@ -44,6 +45,7 @@ export class AppComponent implements OnInit {
     value.homeAssessedValue = this._config.homeAssessedValue;
     this._config.deserialize(value);
     this._config.parent = this;
+
     this.calculate();
   }
 
@@ -87,7 +89,7 @@ export class AppComponent implements OnInit {
 
   get bondPaymentPeak(): IYearData {
     let max = 0;
-    let tempYear : IYearData;
+    let tempYear: IYearData;
     for (const year of this._yearlyData) {
       if (year.homeBondPayment > max) {
         max = year.homeBondPayment;
@@ -112,15 +114,17 @@ export class AppComponent implements OnInit {
     let mostBig = 2018;
     let found = false;
     for (const bond of this._config.bonds) {
-      if (bond.enabled && (bond.startYear + bond.term >= mostBig)) {
+      if (bond.enabled && bond.startYear + bond.term >= mostBig) {
         mostBig = bond.startYear + bond.term;
       }
-      if (bond.enabled && (bond.startYear <= mostSmall)) {
+      if (bond.enabled && bond.startYear <= mostSmall) {
         mostSmall = bond.startYear;
         found = true;
       }
     }
-    if (!found) { return 0; }
+    if (!found) {
+      return 0;
+    }
     return mostBig - mostSmall;
   }
 
@@ -136,42 +140,41 @@ export class AppComponent implements OnInit {
   //   Const definitions
   // ------------------------
   bondTypes = [
-    { value: 1, viewValue: 'Level Debt' },
-    { value: 2, viewValue: 'Level Principal' },
+    { value: 1, viewValue: "Level Debt" },
+    { value: 2, viewValue: "Level Principal" }
   ];
 
   displayedHouseholdColumns = [
-    'year',
-    'homeTarget',
-    'homeTargetTaxBillWithoutBond',
-    'homeTargetTaxBillDiff',
-    'homeTargetTaxBill',
-    'homeYearOverYearIncreasePercent',
-    'bondRequirement',
+    "year",
+    "homeTarget",
+    "homeTargetTaxBillWithoutBond",
+    "homeTargetTaxBillDiff",
+    "homeTargetTaxBill",
+    "homeYearOverYearIncreasePercent",
+    "bondRequirement"
   ];
 
   displayedMuniColumns = [
-    'year',
-    'cipTotalAssessed',
-    'cipNewAssessedGrowth',
+    "year",
+    "cipTotalAssessed",
+    "cipNewAssessedGrowth",
     // 'cipPercent',
-    'cipShiftedPercent',
-    'cipTaxRateWithBond',
-    'roTotalAssessed',
-    'roNewAssessedGrowth',
+    "cipShiftedPercent",
+    "cipTaxRateWithBond",
+    "roTotalAssessed",
+    "roNewAssessedGrowth",
     // 'roPercent',
-    'roShiftedPercent',
-    'roTaxRateWithBond',
+    "roShiftedPercent",
+    "roTaxRateWithBond",
     // 'totalAssessed',
-    'levyLimit',
-    'levyLimitGrowthPercent',
-    'debtExclusionGrowthDifference',
-    'shift',
+    "levyLimit",
+    "levyLimitGrowthPercent",
+    "debtExclusionGrowthDifference",
+    "shift",
     // 'mrf',
-    'rawBondRequirement',
-    'bondRequirement',
+    "rawBondRequirement",
+    "bondRequirement"
   ];
-
 
   // ------------------------
   //   Helpers
@@ -181,13 +184,14 @@ export class AppComponent implements OnInit {
   }
 
   loadConfigs() {
-    this._http.get('./assets/tax-configs.json').subscribe(data => {
+    this._http.get("./assets/tax-configs.json").subscribe(data => {
       const newConfigs = Array<TaxConfig>();
-      for (const config of data['configs']) {
+      for (const config of data["configs"]) {
         newConfigs.push(new TaxConfig().deserialize(config.config));
       }
       this._configs = newConfigs;
       this.currentConfig = newConfigs[0];
+      this.currentConfig.debtServiceCommitment = 0.0;
     });
   }
 

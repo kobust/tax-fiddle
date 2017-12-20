@@ -12,24 +12,25 @@
 .main-div {
     width:600px; 
     margin:5 auto;
-    align-self: center;
+    margin:1em auto;
 }
 
 #title-toolbar {
     background-color: #304ffe;
     color: #FFFFFF;
     font-family: Arial, Helvetica, sans-serif;
+    min-width: 640px
 }
 
 #secondary-div {
-    min-width:600px; 
+    min-width:640px; 
     margin:5 auto;
 }
 
 #head-table { 
     max-width: 1200px; 
-    min-width: 400px;
-    align-self: center;
+    min-width: 600px;
+    margin:1em auto;    
   }
 
 #main-tab-group {

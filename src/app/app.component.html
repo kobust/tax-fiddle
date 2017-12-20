@@ -1,5 +1,5 @@
 <mat-toolbar id="title-toolbar">{{_title}}</mat-toolbar>
-<div class="main-div">
+<div class="main-div" align="center">
   <p style="margin: 10px">
   <b>WARNING:</b> This utility is strictly used to
   <b>estimate</b> tax rates. It uses fixed growth predictions that will differ from actual growth numbers. Please understand
@@ -59,7 +59,7 @@
                 <td>
                   <mat-card class="light-mat-card">
                     <mat-card-content>
-                      <h4>Peak annual bond responsibility ({{ bondPaymentPeak?.year }}):</h4>
+                      <h4>Peak bond responsibility ({{ bondPaymentPeak?.year }}):</h4>
                       <h3 align="center">
                         <b>{{bondPaymentPeak?.homeBondPayment | currency : 'USD' : 'symbol' : '1.0-0'}}</b>
                       </h3>
@@ -74,8 +74,8 @@
                 <td colspan="2">
                   <mat-card class="light-mat-card">
                     <mat-card-content>
-                      <h4>Sum of household bond payments over {{ bondYears }} years for a house assessed at {{targetHomeValue
-                        | currency : 'USD': 'symbol': '1.0-0'}}:
+                      <h4>Sum of household bond payments over {{ bondYearsBase }} years for a house assessed at {{targetHomeValue
+                        | currency : 'USD': 'symbol': '1.0-0'}}  {{bondYears !== bondYearsBase? "(" + (bondYearsBase - bondYears) + " years of no increased payments)" : ""}}
                       </h4>
                       <h3 align="center">
                         <b>{{bondPaymentTotal | currency : 'USD' : 'symbol' : '1.0-0'}}</b>

@@ -76,15 +76,13 @@ export class AppComponent implements OnInit {
   }
 
   get bondPaymentAverage(): number {
-    let years = 0;
     let sum = 0;
     for (const year of this._yearlyData) {
       if (year.bondRequirement > 0) {
-        years += 1;
         sum += year.homeBondPayment;
       }
     }
-    return years > 0 ? sum / years : 0;
+    return this.bondYearsBase > 0 ? sum / this.bondYearsBase : 0;
   }
 
   get bondPaymentPeak(): IYearData {

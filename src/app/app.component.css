@@ -1,38 +1,42 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 .dark-mat-card {
-    background-color: #cfd8dc;
-  }
+  background-color: #cfd8dc;
+}
 .light-mat-card {
-    background-color: #FFFFFF;
-    margin-bottom: 5px;  
-    flex-grow:   
-  }  
+  background-color: #ffffff;
+  margin-bottom: 5px;
+}
+
+.special-mat-card {
+  background-color: #ffffff;
+  margin-bottom: 5px;
+}
 
 .main-div {
-    width:600px; 
-    margin:5 auto;
-    margin:1em auto;
+  width: 600px;
+  margin: 5 auto;
+  margin: 1em auto;
 }
 
 #title-toolbar {
-    background-color: #304ffe;
-    color: #FFFFFF;
-    font-family: Arial, Helvetica, sans-serif;
-    min-width: 640px
+  background-color: #304ffe;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  min-width: 640px;
 }
 
 #secondary-div {
-    min-width:640px; 
-    margin:5 auto;
+  min-width: 640px;
+  margin: 5 auto;
 }
 
-#head-table { 
-    max-width: 1200px; 
-    min-width: 600px;
-    margin:1em auto;    
-  }
+#head-table {
+  max-width: 1200px;
+  min-width: 600px;
+  margin: 1em auto;
+}
 
 #main-tab-group {
-    border: 1px solid #e1e1e1;
+  border: 1px solid #e1e1e1;
 }

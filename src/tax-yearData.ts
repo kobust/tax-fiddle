@@ -6,6 +6,7 @@ export class YearData implements IYearData {
   private _currentYear: IYearInputData;
   private _previousYear: IYearInputData;
   private _config: TaxConfig;
+  private _isPeakYear = false;
 
   constructor(
     currentYear: IYearInputData,
@@ -42,6 +43,12 @@ export class YearData implements IYearData {
     return newInput;
   }
 
+  get isPeakYear(): boolean {
+    return this._isPeakYear;
+  }
+  set isPeakYear(value: boolean) {
+    this._isPeakYear = value;
+  }
   get cipTotalAssessed(): number {
     return this._currentYear.cipTotalAssessed;
   }
@@ -189,5 +196,12 @@ export class YearData implements IYearData {
   }
   get year(): number {
     return this._currentYear.year;
+  }
+
+  getClass(): string {
+    if (this.isPeakYear) return "peakpayment-row";
+    if (this.year == 2022) return "highlight-row";
+    if (this.homeBondPayment == 0) return "faded-row";
+    return "";
   }
 }

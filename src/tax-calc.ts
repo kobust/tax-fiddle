@@ -1,18 +1,17 @@
-import { Injectable, Component } from '@angular/core';
-import { TaxConfig } from './tax-config';
-import { TaxBond } from './tax-bond';
-import { IYearData } from './interfaces/IYearData';
-import { IYearInputData } from './interfaces/IYearInputData';
-import { YearData } from './tax-yearData';
-import { HttpClient } from '@angular/common/http';
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Injectable, Component } from "@angular/core";
+import { TaxConfig } from "./tax-config";
+import { TaxBond } from "./tax-bond";
+import { IYearData } from "./interfaces/IYearData";
+import { IYearInputData } from "./interfaces/IYearInputData";
+import { YearData } from "./tax-yearData";
+import { HttpClient } from "@angular/common/http";
+import { OnInit } from "@angular/core/src/metadata/lifecycle_hooks";
 
 @Injectable()
 @Component({
   providers: [HttpClient]
 })
 export class TaxCalcComponent {
-
   _yearlyInput = new Map<number, IYearInputData>();
 
   constructor(private _http: HttpClient) {
@@ -22,7 +21,7 @@ export class TaxCalcComponent {
   _getBondStopYear(bonds: Array<TaxBond>): number {
     let mostBig = 2018;
     for (const bond of bonds) {
-      if (bond.enabled && (bond.startYear + bond.term >= mostBig)) {
+      if (bond.enabled && bond.startYear + bond.term >= mostBig) {
         mostBig = bond.startYear + bond.term;
       }
     }
@@ -56,19 +55,36 @@ export class TaxCalcComponent {
     let currentYear: number;
     for (currentYear = startYear; currentYear <= stopYear; currentYear++) {
       if (includeBond) {
-        currentYearInput.bondRequirement = this._getBondYearCost(currentYear, config.bonds);
+        currentYearInput.bondRequirement = this._getBondYearCost(
+          currentYear,
+          config.bonds
+        );
       }
-      const currentYearData = new YearData(currentYearInput, lastYearInput, config);
+      const currentYearData = new YearData(
+        currentYearInput,
+        lastYearInput,
+        config
+      );
       result.push(currentYearData);
       lastYearInput = currentYearInput;
       currentYearInput = currentYearData.generateNextYearInput(config);
     }
+
+    let maxYear: IYearData;
+    for (const year of result) {
+      if (!maxYear) {
+        maxYear = year;
+      } else if (year.homeBondPayment > maxYear.homeBondPayment) {
+        maxYear = year;
+      }
+    }
+    maxYear.isPeakYear = true;
     return result;
   }
 
   _loadYears() {
-    this._http.get('./assets/tax-data.json').subscribe(data => {
-      for (const y of data['years']) {
+    this._http.get("./assets/tax-data.json").subscribe(data => {
+      for (const y of data["years"]) {
         this._yearlyInput.set(y.year, y);
       }
     });

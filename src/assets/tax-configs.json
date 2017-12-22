@@ -151,7 +151,7 @@
             "_bondType": 1,
             "_name": "Level Debt (2 of 3)",
             "_startYear": 2021,
-            "_principal": 81000000,
+            "_principal": 80000000,
             "_interestRate": 0.05,
             "_term": 25,
             "_enabled": true

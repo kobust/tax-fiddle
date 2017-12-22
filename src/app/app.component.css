@@ -40,3 +40,17 @@
 #main-tab-group {
   border: 1px solid #e1e1e1;
 }
+
+.highlight-row {
+  background-color: #f0f4c3;
+}
+
+.peakpayment-row {
+  background-color: #ffcdd2;
+  font-weight: bold;
+}
+
+.faded-row {
+  background-color: #f5f5f5;
+  font-weight: lighter;
+}

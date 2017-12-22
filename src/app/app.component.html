@@ -137,8 +137,16 @@
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedHouseholdColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedHouseholdColumns;"></mat-row>
+        <mat-row *matRowDef="let row; columns: displayedHouseholdColumns;" [ngClass]="row.getClass()"></mat-row>
       </mat-table>
+      <table>
+        <tr>
+          <td> </td>
+          <td class="highlight-row"> * First Year for new HS</td>
+          <td> </td>
+          <td class="peakpayment-row"> ** Peak Payment Year</td>
+        </tr>
+      </table>
     </mat-tab>
 
 
@@ -242,8 +250,16 @@
 
 
         <mat-header-row *matHeaderRowDef="displayedMuniColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedMuniColumns;"></mat-row>
+        <mat-row *matRowDef="let row; columns: displayedMuniColumns;" [ngClass]="row.getClass()"></mat-row>
       </mat-table>
+      <table>
+        <tr>
+          <td> </td>
+          <td class="highlight-row"> * First Year for new HS</td>
+          <td> </td>
+          <td class="peakpayment-row"> ** Peak Payment Year</td>
+        </tr>
+      </table>
     </mat-tab>
 
 

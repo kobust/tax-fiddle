@@ -67,7 +67,7 @@
                         <b>{{bondPaymentAverage | currency : 'USD' : 'symbol' : '1.0-0'}}</b>
                       </h3>
                       <p align="center">
-                        <i>({{bondPaymentAverage / 12 | currency : 'USD' : 'symbol' : '1.0-0'}}/month)</i>
+                        <i>({{bondPaymentMaxRollingAverage | currency : 'USD' : 'symbol' : '1.0-0'}} peak 30y avg)</i>
                       </p>
                     </mat-card-content>
                   </mat-card>
@@ -96,6 +96,29 @@
     </tr>
   </table>
 </div>
+
+
+<mat-card class='light-mat-card'>
+  <mat-card-content>
+    <h4>Bonds Summary: {{ currentConfig.name }}</h4>
+    <ul>
+      <li>
+        <h4>Total Principal: {{ totalBondPrincipal | currency : 'USD': 'symbol': '1.0-0'}}</h4>
+      </li>
+      <li>
+        <h4>Total Interest: {{ totalBondPayments - totalBondPrincipal | currency : 'USD': 'symbol': '1.0-0' }}</h4>
+      </li>
+      <li>
+        <h4>Total: {{ totalBondPayments | currency : 'USD': 'symbol': '1.0-0' }}</h4>
+      </li>
+      <li>
+        <h4>Total Years: {{ bondYearsBase }}</h4>
+      </li>
+    </ul>
+  </mat-card-content>
+</mat-card>
+
+
 
 <div id="secondary-div">
   <mat-tab-group flex id="main-tab-group">
@@ -142,15 +165,15 @@
       <table>
         <tr>
           <td> </td>
-          <td class="highlight-row"> * Kids start in new high school September 2022 </td>
+          <td class="highlight-row"> * First year school open </td>
           <td> </td>
-          <td class="peakpayment-row"> ** Peak Payment Year</td>
+          <td class="peakpayment-row"> ** Peak payment year</td>
         </tr>
       </table>
     </mat-tab>
 
 
-    <mat-tab label="Municipal Data">
+    <mat-tab label="Municipal Data" *ngIf="expertmodeEnabled">
       <mat-table #table [dataSource]="_dataSource">
         <ng-container matColumnDef="year">
           <mat-header-cell *matHeaderCellDef>Year</mat-header-cell>
@@ -202,8 +225,13 @@
           <mat-cell *matCellDef="let element">{{element.roShiftedPercent | percent : '1.2-2'}}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="roTaxRateWithBond">
+        <ng-container matColumnDef="roTaxRateNoBond">
           <mat-header-cell *matHeaderCellDef>RO Rate</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.roTaxRate | number : '1.2-2'}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="roTaxRateWithBond">
+          <mat-header-cell *matHeaderCellDef>RO Rate(w/bond)</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.roTaxRateWithBond | number : '1.2-2'}}</mat-cell>
         </ng-container>
 
@@ -264,8 +292,7 @@
 
 
 
-    <mat-tab label="Bond Config">
-
+    <mat-tab label="Bond Config" *ngIf="expertmodeEnabled">
       <div flex layout="column">
         <mat-card class='light-mat-card'>
           <mat-card-header>
@@ -282,25 +309,6 @@
                 {{config.name}}
               </mat-option>
             </mat-select>
-          </mat-card-content>
-        </mat-card>
-        <mat-card class='light-mat-card'>
-          <mat-card-content>
-            <h4>Bonds Summary: {{ currentConfig.name }}</h4>
-            <ul>
-              <li>
-                <h4>Total Principal: {{ totalBondPrincipal | currency : 'USD': 'symbol': '1.0-0'}}</h4>
-              </li>
-              <li>
-                <h4>Total Interest: {{ totalBondPayments - totalBondPrincipal | currency : 'USD': 'symbol': '1.0-0' }}</h4>
-              </li>
-              <li>
-                <h4>Total: {{ totalBondPayments | currency : 'USD': 'symbol': '1.0-0' }}</h4>
-              </li>
-              <li>
-                <h4>Total Years: {{ bondYearsBase }}</h4>
-              </li>
-            </ul>
           </mat-card-content>
         </mat-card>
       </div>
@@ -341,7 +349,7 @@
 
 
 
-    <mat-tab label="Growth Config">
+    <mat-tab label="Growth Config" *ngIf="expertmodeEnabled">
       <mat-card class='light-mat-card'>
         <h4>Commercial, Industrial and Pers Property (CIP) Growth Rates:</h4>
         <mat-card-content>
@@ -401,6 +409,12 @@
     </mat-tab>
   </mat-tab-group>
 </div>
+<mat-card class='light-mat-card'>
+  <h4>Settings:</h4>
+  <mat-card-content>
+      <mat-slide-toggle [(ngModel)]='expertModeEnabled'>Expert Mode</mat-slide-toggle>
+  </mat-card-content>
+</mat-card>
 <div class="main-div">
   <p>
     <b>DISCLAIMER / WARNING:</b> This utility is strictly used to

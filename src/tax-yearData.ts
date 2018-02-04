@@ -157,12 +157,14 @@ export class YearData implements IYearData {
         1000)
     );
   }
+  
   get sumDebtExclusionGrowthDifference(): number {
     return (
       this._currentYear.sumDebtExclusionGrowthDifference +
       this.debtExclusionGrowthDifference
     );
   }
+
   get debtExclusionGrowthDifference(): number {
     let newGrowth = 0;
     newGrowth +=
@@ -181,6 +183,7 @@ export class YearData implements IYearData {
 
     return newGrowthWithBond - newGrowth;
   }
+
   get bondRequirement(): number {
     let paymentFromDebtServices = this._config.debtServiceCommitment;
     if (this._config.enableBondPaymentRecycling) {
@@ -191,9 +194,11 @@ export class YearData implements IYearData {
     }
     return this._currentYear.bondRequirement - paymentFromDebtServices;
   }
+
   get rawBondRequirement(): number {
     return this._currentYear.bondRequirement;
   }
+
   get year(): number {
     return this._currentYear.year;
   }

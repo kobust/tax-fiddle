@@ -19,6 +19,7 @@
   margin: 1em auto;
 }
 
+<<<<<<< HEAD
 .mat-column-year_muni{
   font-size: 100%;
   font-weight: bold;
@@ -73,6 +74,11 @@
 
 #house_data_table {
   font-size: 60%;
+=======
+.discaimer-div {
+  background-color: #f5f5f5;
+  font-weight: lighter;
+>>>>>>> 605620add2c1c6298df10172808f8c199fba377f
 }
 
 #title-toolbar {

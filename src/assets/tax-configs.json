@@ -1,11 +1,12 @@
 {
+
   "configs": [
     {
       "config": {
-        "_name": "3 Level Debt Bonds (w/ realistic growth)",
+        "_name": "Mayor's latest (w/ realistic growth)",
         "_cipNewGrowthRate": 0.036,
         "_cipGrowthRate": 0.03,
-        "_roGrowthRate": 0.024,
+        "_roGrowthRate": 0.023,
         "_roNewGrowthRate": 0.0134,
         "_homeGrowthRate": 0.015,
         "_shift": 1.28,
@@ -14,29 +15,29 @@
         "_bonds": [
           {
             "_bondType": 1,
-            "_name": "Level Debt (1 of 3)",
+            "_name": "Level Debt ($40m)",
             "_startYear": 2020,
-            "_principal": 35000000,
+            "_principal": 40000000,
             "_interestRate": 0.045,
-            "_term": 20,
+            "_term": 30,
             "_enabled": true
           },
           {
             "_bondType": 1,
-            "_name": "Level Debt (2 of 3)",
+            "_name": "Level Debt ($81m)",
             "_startYear": 2021,
-            "_principal": 80000000,
+            "_principal": 81000000,
             "_interestRate": 0.05,
-            "_term": 20,
+            "_term": 30,
             "_enabled": true
           },
           {
             "_bondType": 1,
-            "_name": "Level Debt (3 of 3)",
+            "_name": "Level Debt ($5m)",
             "_startYear": 2026,
-            "_principal": 15000000,
+            "_principal": 5000000,
             "_interestRate": 0.055,
-            "_term": 20,
+            "_term": 30,
             "_enabled": true
           }
         ]
@@ -44,7 +45,49 @@
     },
     {
       "config": {
-        "_name": "3 Level Principal Bonds (Values from spreadsheet)",
+        "_name": "Mayor's latest (January 2018 - sans growth)",
+        "_cipNewGrowthRate": 0.011,
+        "_cipGrowthRate": 0.035,
+        "_roGrowthRate": 0.035,
+        "_roNewGrowthRate": 0.009,
+        "_homeGrowthRate": 0,
+        "_shift": 1.31,
+        "_debtServiceCommitment": 0,
+        "_enableBondPaymentRecycling": false,
+        "_bonds": [
+          {
+            "_bondType": 1,
+            "_name": "Level Debt ($40m)",
+            "_startYear": 2020,
+            "_principal": 40000000,
+            "_interestRate": 0.045,
+            "_term": 30,
+            "_enabled": true
+          },
+          {
+            "_bondType": 1,
+            "_name": "Level Debt ($81m)",
+            "_startYear": 2021,
+            "_principal": 81000000,
+            "_interestRate": 0.05,
+            "_term": 30,
+            "_enabled": true
+          },
+          {
+            "_bondType": 1,
+            "_name": "Level Debt ($5m)",
+            "_startYear": 2026,
+            "_principal": 5000000,
+            "_interestRate": 0.055,
+            "_term": 30,
+            "_enabled": true
+          }
+        ]
+      }
+    },
+    {
+      "config": {
+        "_name": "June 2017 config (basis for $394 average)",
         "_cipNewGrowthRate": 0.009,
         "_cipGrowthRate": 0.035,
         "_roGrowthRate": 0.035,
@@ -86,56 +129,14 @@
     },
     {
       "config": {
-        "_name": "3 Level Principal Bonds (Spreadsheet w/ realistic growth)",
+        "_name": "Kobus Proposal",
         "_cipNewGrowthRate": 0.036,
         "_cipGrowthRate": 0.03,
-        "_roGrowthRate": 0.024,
-        "_roNewGrowthRate": 0.0134,
-        "_homeGrowthRate": 0.015,
-        "_shift": 1.28,
-        "_debtServiceCommitment": 0,
-        "_enableBondPaymentRecycling": false,
-        "_bonds": [
-          {
-            "_bondType": 2,
-            "_name": "Level Principal (1 of 3)",
-            "_startYear": 2020,
-            "_principal": 35000000,
-            "_interestRate": 0.045,
-            "_term": 20,
-            "_enabled": true
-          },
-          {
-            "_bondType": 2,
-            "_name": "Level Principal (2 of 3)",
-            "_startYear": 2021,
-            "_principal": 80000000,
-            "_interestRate": 0.05,
-            "_term": 20,
-            "_enabled": true
-          },
-          {
-            "_bondType": 2,
-            "_name": "Level Principal (3 of 3)",
-            "_startYear": 2026,
-            "_principal": 15000000,
-            "_interestRate": 0.055,
-            "_term": 20,
-            "_enabled": true
-          }
-        ]
-      }
-    },
-    {
-      "config": {
-        "_name": "Unicorns and Show Ponies",
-        "_cipNewGrowthRate": 0.036,
-        "_cipGrowthRate": 0.03,
-        "_roGrowthRate": 0.024,
+        "_roGrowthRate": 0.023,
         "_roNewGrowthRate": 0.0134,
         "_homeGrowthRate": 0.015,
         "_shift": 1.3,
-        "_debtServiceCommitment": 1500000,
+        "_debtServiceCommitment": 1100000,
         "_enableBondPaymentRecycling": true,
         "_bonds": [
           {
@@ -151,7 +152,7 @@
             "_bondType": 1,
             "_name": "Level Debt (2 of 3)",
             "_startYear": 2021,
-            "_principal": 80000000,
+            "_principal": 81000000,
             "_interestRate": 0.05,
             "_term": 25,
             "_enabled": true
@@ -160,7 +161,7 @@
             "_bondType": 1,
             "_name": "Level Debt (3 of 3)",
             "_startYear": 2026,
-            "_principal": 17000000,
+            "_principal": 5000000,
             "_interestRate": 0.055,
             "_term": 20,
             "_enabled": true

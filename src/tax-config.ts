@@ -9,7 +9,7 @@ interface Serializable<T> {
 export class TaxConfig implements Serializable<TaxConfig> {
   constructor() {
     this._debtServiceCommitment = 0;
-    this._homeAssessedValue = 270700;
+    this._homeAssessedValue = 280000;
     this._bonds = new Array<TaxBond>();
   }
 

@@ -29,6 +29,7 @@ export class AppComponent implements OnInit {
   constructor(private _calc: TaxCalcComponent, private _http: HttpClient) {
     this._householdImpactChart = new HouseholdImpactChartComponent(this._calc);
     this.targetHomeValue = this._config.homeAssessedValue;
+    this._expertModeEnabled = false;
     this._dataSource = new MatTableDataSource(
       this._calc.generateTable(true, this.currentConfig)
     );
@@ -55,6 +56,14 @@ export class AppComponent implements OnInit {
   set targetHomeValue(value: number) {
     this._config.homeAssessedValue = value;
     this.calculate();
+  }
+
+  _expertModeEnabled : boolean;
+  get expertmodeEnabled(): boolean {
+    return this._expertModeEnabled;
+  }
+  set expertModeEnabled(value: boolean) {
+    this._expertModeEnabled = value;
   }
 
   get totalBondPrincipal(): number {
@@ -84,7 +93,34 @@ export class AppComponent implements OnInit {
         sum += year.homeBondPayment;
       }
     }
+    
     return this.bondYearsBase > 0 ? sum / this.bondYearsBase : 0;
+  }
+
+  get bondPaymentMaxRollingAverage(): number { 
+    let numYears = 31;
+    if (this._yearlyData.length == 0) {
+      return 0;
+    }
+    let max = 0;
+    let startIndex = 0;
+    for (let i = 0; i < this._yearlyData.length; i++) {
+      let sum = 0;
+      for (let ii = 0; (ii < numYears) && (i+ii < this._yearlyData.length); ii++) {
+        sum+=this._yearlyData[i+ii].homeBondPayment;
+      }
+      if (sum > max) {
+        max = sum;
+        startIndex = i;
+      }
+    }
+
+    // in case we have fewer than 31 years...
+    let actualYears = numYears;
+    if (actualYears > this.bondYearsBase) {
+      actualYears = this.bondYearsBase;
+    }
+    return max / actualYears;
   }
 
   get bondPaymentPeak(): IYearData {
@@ -157,20 +193,21 @@ export class AppComponent implements OnInit {
   displayedMuniColumns = [
     "year",
     "cipTotalAssessed",
-    "cipNewAssessedGrowth",
+    //"cipNewAssessedGrowth",
     // 'cipPercent',
     "cipShiftedPercent",
     "cipTaxRateWithBond",
     "roTotalAssessed",
-    "roNewAssessedGrowth",
+    //"roNewAssessedGrowth",
     // 'roPercent',
     "roShiftedPercent",
+    "roTaxRateNoBond",
     "roTaxRateWithBond",
     // 'totalAssessed',
     "levyLimit",
     "levyLimitGrowthPercent",
     "debtExclusionGrowthDifference",
-    "shift",
+    //"shift",
     // 'mrf',
     "rawBondRequirement",
     "bondRequirement"

@@ -1,11 +1,12 @@
-import { YearData } from '../tax-yearData';
-import { TaxConfig } from '../tax-config';
+import { YearData } from './tax-yearData';
+import { TaxConfig } from './tax-config';
 import { Component } from '@angular/core';
-import { TaxCalcComponent } from '../tax-calc';
+import { TaxCalcComponent } from './tax-calc';
 import { IYearData } from '../interfaces/IYearData';
 
 @Component({
-    providers: [TaxCalcComponent]
+    providers: [TaxCalcComponent],
+    template: 'NotUsed-HouseholdImpactChartComponent'
 })
 export class HouseholdImpactChartComponent {
     public lineChartLegend = true;

@@ -1,5 +1,5 @@
-import { IYearData } from "./interfaces/IYearData";
-import { IYearInputData } from "./interfaces/IYearInputData";
+import { IYearData } from "../interfaces/IYearData";
+import { IYearInputData } from "../interfaces/IYearInputData";
 import { TaxConfig } from "./tax-config";
 
 export class YearData implements IYearData {

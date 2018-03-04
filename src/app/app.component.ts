@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
 import { MatTableDataSource } from "@angular/material";
 
-import { TaxCalcComponent } from "../tax-calc";
-import { TaxConfig } from "../tax-config";
+import { TaxCalcComponent } from "./tax-calc";
+import { TaxConfig } from "./tax-config";
 import { HttpClient } from "@angular/common/http";
 import { IfObservable } from "rxjs/observable/IfObservable";
 import { Observable } from "rxjs/Observable";
@@ -10,7 +10,7 @@ import { OnInit } from "@angular/core/src/metadata/lifecycle_hooks";
 import { IYearData } from "../interfaces/IYearData";
 import { HouseholdImpactChartComponent } from "./householdImpactChart";
 import { isDefined } from "@angular/compiler/src/util";
-import { YearData } from "../tax-yearData";
+import { YearData } from "./tax-yearData";
 
 @Component({
   selector: "app-root",
@@ -181,17 +181,17 @@ export class AppComponent implements OnInit {
   ];
 
   displayedHouseholdColumns = [
-    "year",
+    "year_household",
     "homeTarget",
     "homeTargetTaxBillWithoutBond",
     "homeTargetTaxBillDiff",
     "homeTargetTaxBill",
     "homeYearOverYearIncreasePercent",
-    "bondRequirement"
+    //"bondRequirement"
   ];
 
   displayedMuniColumns = [
-    "year",
+    "year_muni",
     "cipTotalAssessed",
     //"cipNewAssessedGrowth",
     // 'cipPercent',
@@ -199,7 +199,7 @@ export class AppComponent implements OnInit {
     "cipTaxRateWithBond",
     "roTotalAssessed",
     //"roNewAssessedGrowth",
-    // 'roPercent',
+    "roPercent",
     "roShiftedPercent",
     "roTaxRateNoBond",
     "roTaxRateWithBond",

@@ -3,6 +3,7 @@
   "configs": [
     {
       "config": {
+        "_id" : "jan2018_with_growth",
         "_name": "Mayor's latest (w/ realistic growth)",
         "_cipNewGrowthRate": 0.036,
         "_cipGrowthRate": 0.03,
@@ -45,6 +46,7 @@
     },
     {
       "config": {
+        "_id" : "jan2018_no_growth",
         "_name": "Mayor's latest (January 2018 - sans growth)",
         "_cipNewGrowthRate": 0.011,
         "_cipGrowthRate": 0.035,
@@ -87,6 +89,7 @@
     },
     {
       "config": {
+        "_id" : "jun2017_no_growth",
         "_name": "June 2017 config (basis for $394 average)",
         "_cipNewGrowthRate": 0.009,
         "_cipGrowthRate": 0.035,
@@ -129,6 +132,7 @@
     },
     {
       "config": {
+        "_id" : "kobus_proposal",
         "_name": "Kobus Proposal",
         "_cipNewGrowthRate": 0.036,
         "_cipGrowthRate": 0.03,

@@ -19,11 +19,16 @@ import {
   MatCardModule,
   MatToolbarModule,
 } from '@angular/material';
+
 import { AppComponent } from './app.component';
+import {TaxCalcComponent} from './tax-calc';
+import { HouseholdImpactChartComponent} from './householdImpactChart';
 
 @NgModule({
   declarations: [
     AppComponent,
+    TaxCalcComponent,
+    HouseholdImpactChartComponent,
   ],
   imports: [
     BrowserModule,

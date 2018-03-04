@@ -1,5 +1,5 @@
-import { ITaxBond, BondType } from './interfaces/ITaxBond';
-import { ISerializable } from './interfaces/ISerializable';
+import { ITaxBond, BondType } from '../interfaces/ITaxBond';
+import { ISerializable } from '../interfaces/ISerializable';
 
 
 export class TaxBond implements ITaxBond, ISerializable<TaxBond> {

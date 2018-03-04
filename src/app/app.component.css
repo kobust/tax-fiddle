@@ -19,6 +19,62 @@
   margin: 1em auto;
 }
 
+.mat-column-year_muni{
+  font-size: 100%;
+  font-weight: bold;
+}
+.mat-column-year_household{
+  font-weight: bold;
+}
+.mat-column-cipTotalAssessed{
+  font-size: 100%;
+}
+.mat-column-cipShiftedPercent{
+  font-size: 100%;
+}
+.mat-column-cipTaxRateWithBond{
+  font-size: 100%;
+}
+.mat-column-roTotalAssessed{
+  font-size: 100%;
+}
+.mat-column-roPercent{
+  font-size: 100%; 
+}
+.mat-column-roShiftedPercent{
+  font-size: 100%;
+}
+.mat-column-roTaxRateNoBond{
+  font-size: 100%;
+}
+.mat-column-roTaxRateWithBond{
+  font-size: 100%;
+}
+.mat-column-levyLimit{
+  font-size: 100%;
+}
+.mat-column-levyLimitGrowthPercent{
+  font-size: 100%;
+}
+.mat-column-debtExclusionGrowthDifference{
+  font-size: 100%;
+}
+.mat-column-rawBondRequirement{
+  font-size: 100%;
+}
+.mat-column-bondRequirement{
+  font-size: 100%;
+}
+
+
+#muni_data_table {
+  font-size: 60%;
+}
+
+#house_data_table {
+  font-size: 60%;
+}
+
 #title-toolbar {
   background-color: #304ffe;
   color: #ffffff;

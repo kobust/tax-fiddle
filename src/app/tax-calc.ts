@@ -1,15 +1,16 @@
 import { Injectable, Component } from "@angular/core";
 import { TaxConfig } from "./tax-config";
 import { TaxBond } from "./tax-bond";
-import { IYearData } from "./interfaces/IYearData";
-import { IYearInputData } from "./interfaces/IYearInputData";
+import { IYearData } from "../interfaces/IYearData";
+import { IYearInputData } from "../interfaces/IYearInputData";
 import { YearData } from "./tax-yearData";
 import { HttpClient } from "@angular/common/http";
 import { OnInit } from "@angular/core/src/metadata/lifecycle_hooks";
 
 @Injectable()
 @Component({
-  providers: [HttpClient]
+  providers: [HttpClient],
+  template: 'NotUsed-TaxCalcComponent'
 })
 export class TaxCalcComponent {
   _yearlyInput = new Map<number, IYearInputData>();

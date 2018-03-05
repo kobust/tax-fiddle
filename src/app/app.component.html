@@ -1,13 +1,15 @@
 <mat-toolbar id="title-toolbar">{{_title}}</mat-toolbar>
 <div class="main-div" align="center">
-  <div id="discaimer-div" align="left">
-  <p>
-    <b>Disclaimer:</b> This utility is strictly used to
-    <b>estimate</b> tax rates. It uses fixed growth predictions that will differ from actual growth numbers. Please understand
-    the values will not match your actual tax bill.</p>
-  <p>
-    These numbers do not match the projected numbers distributed by City Hall because they assume a 1.5% year over year increase in the assessed home value.
-    For more information, see <a href="https://docs.google.com/presentation/d/1wEtOlXFgGmkXMow5uts24l4lROWe1FOTk8LdYfc2m-c/present">Influence of Assessed Growth presentation.</a></p>
+  <div class="disclaimer_div" align="left">
+    <p>
+      <b>Disclaimer:</b> This utility is strictly used to
+      <b>estimate</b> tax rates. It uses fixed growth predictions that will differ from actual growth numbers. Please understand
+      the values will not match your actual tax bill.</p>
+    <p>
+      These numbers do not match the projected numbers distributed by City Hall because they assume a 1.5% year over year increase
+      in the assessed home value. For more information, see
+      <a href="https://docs.google.com/presentation/d/1wEtOlXFgGmkXMow5uts24l4lROWe1FOTk8LdYfc2m-c/present">Influence of Assessed Growth presentation.</a>
+    </p>
   </div>
   <table id="head-table" cellpadding="10px 0px 10px 0px">
     <tr>
@@ -15,7 +17,7 @@
         <mat-card class='light-mat-card'>
           <mat-card-header>
             <mat-card-title>
-              <h2>Assessed Home Value: {{targetHomeValue | currency : 'USD': 'symbol': '1.0-0'}}</h2>
+              <h2>Assessed Home Value</h2>
             </mat-card-title>
           </mat-card-header>
           <mat-card-content>
@@ -37,7 +39,7 @@
         <mat-card class="dark-mat-card">
           <mat-card-header>
             <mat-card-title>
-              <h2>Estimated Household Impact</h2>
+              <h2>Estimated Household Impact: {{targetHomeValue | currency : 'USD': 'symbol': '1.0-0'}}</h2>
             </mat-card-title>
           </mat-card-header>
           <mat-card-content>
@@ -51,8 +53,8 @@
                   <mat-card class="light-mat-card">
                     <mat-card-content>
                       <h4>Total household bond payments over {{ bondYearsBase }} years for a house assessed at {{targetHomeValue
-                        | currency : 'USD': 'symbol': '1.0-0'}} {{bondYears !== bondYearsBase? "(" + (bondYearsBase - bondYears)
-                        + " years of no increased payments)" : ""}}
+                        | currency : 'USD': 'symbol': '1.0-0'}} in fiscal year 2018. {{bondYears !== bondYearsBase? "(" +
+                        (bondYearsBase - bondYears) + " years of no increased payments)" : ""}}
                       </h4>
                       <h3 align="center">
                         <b>{{bondPaymentTotal | currency : 'USD' : 'symbol' : '1.0-0'}}</b>
@@ -179,7 +181,7 @@
 
 
     <mat-tab id="muni_data_tab" label="Municipal Data" *ngIf="expertmodeEnabled">
-      <mat-table id="muni_data_table"  #table [dataSource]="_dataSource">
+      <mat-table id="muni_data_table" #table [dataSource]="_dataSource">
         <ng-container matColumnDef="year_muni">
           <mat-header-cell *matHeaderCellDef>Year</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.year}}</mat-cell>
@@ -417,14 +419,15 @@
 <mat-card class='light-mat-card'>
   <h4>Settings:</h4>
   <mat-card-content>
-      <mat-slide-toggle [(ngModel)]='expertModeEnabled'>Expert Mode</mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]='expertModeEnabled'>Expert Mode</mat-slide-toggle>
   </mat-card-content>
 </mat-card>
-<div class="main-div">
+<div class="disclaimer_div" align="left">
   <p>
     <b>DISCLAIMER / WARNING:</b> This utility is strictly used to
     <b>estimate</b> tax rates. It uses fixed growth predictions that will differ from actual growth numbers. Please understand
     the values will not match your actual tax bill.</p>
-  <p>This utility was created and is maintained by Todd Kobus. Please feel free to contact me at 'todd at toddkobus.com' with
-    any questions, comments or concerns.</p>
+  <p>This utility was created and is maintained by Todd Kobus. Please feel free to contact me at 'councilorKobus at gmail.com'
+    with any questions, comments or concerns. The source code is available on
+    <a href="https://github.com/kobust/tax-fiddle">github</a>.</p>
 </div>

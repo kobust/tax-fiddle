@@ -4,7 +4,7 @@
     {
       "config": {
         "_id" : "jan2018_with_growth",
-        "_name": "Mayor's latest (w/ realistic growth)",
+        "_name": "Mayor's latest (w/ growth)",
         "_cipNewGrowthRate": 0.036,
         "_cipGrowthRate": 0.03,
         "_roGrowthRate": 0.023,
@@ -53,7 +53,7 @@
         "_roGrowthRate": 0.035,
         "_roNewGrowthRate": 0.009,
         "_homeGrowthRate": 0,
-        "_shift": 1.31,
+        "_shift": 1.28,
         "_debtServiceCommitment": 0,
         "_enableBondPaymentRecycling": false,
         "_bonds": [
@@ -133,7 +133,7 @@
     {
       "config": {
         "_id" : "kobus_proposal",
-        "_name": "Kobus Proposal",
+        "_name": "In This Together Proposal",
         "_cipNewGrowthRate": 0.036,
         "_cipGrowthRate": 0.03,
         "_roGrowthRate": 0.023,
